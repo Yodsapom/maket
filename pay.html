@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบชำระเงินเช่าบูชาพระเครื่อง - สยามพุทธศิลป์</title>
+  
+  <!-- Google Fonts ภาษาไทย (Charm สำหรับหัวข้อไทยขลัง + Bai Jamjuree เนื้อหาอ่านง่าย) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400;500;600;700&family=Charm:wght@400;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    .top-header {
+    background-color: #000000;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* จัดให้เรียงต่อกันจากซ้ายไปขวา */
+    gap: 25px; /* ระยะห่างระหว่างเมนูแต่ละตัว */
+}
+
+.top-header .logo {
+    display: flex;
+    align-items: center;
+}
+
+.top-header .logo a {
+    color: coral;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    white-space: nowrap; /* ป้องกันไม่ให้ข้อความตกบรรทัด */
+    margin-right: 10px; /* เว้นระยะห่างจากเมนูแรกนิดหน่อย */
+}
+
+.top-header .menu-item {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    white-space: nowrap; /* ป้องกันไม่ให้ชื่อเมนูตกบรรทัด */
+    transition: color 0.3s;
+}
+
+.top-header .menu-item:hover {
+    color: coral;
+}
+    :root {
+      --bg-dark: #0c1017;
+      --panel-bg: #161e2b;
+      --card-bg: #1f2a3c;
+      --gold: #facc15;
+      --gold-light: #fef08a;
+      --cyan: #38bdf8;
+      --border: #27374d;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Bai Jamjuree', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #ffffff;
+      padding-bottom: 50px;
+    }
+
+    .thai-sacred {
+      font-family: 'Charm', cursive !important;
+    }
+
+    .num-font {
+      font-family: 'Orbitron', monospace;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: #111827;
+      border-bottom: 1px solid var(--border);
+      padding: 14px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-brand {
+      font-size: 24px;
+      color: var(--gold);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 20px;
+    }
+
+    .nav-menu a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .nav-menu a span.sub {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    .nav-menu a.active {
+      color: var(--gold);
+    }
+
+    /* แถบกระเป๋าเงิน */
+    .wallet-bar {
+      max-width: 1150px;
+      margin: 20px auto;
+      padding: 12px 24px;
+      background: rgba(250, 204, 21, 0.08);
+      border: 1px solid var(--gold);
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .wallet-title {
+      font-size: 18px;
+      color: var(--gold);
+    }
+
+    /* Layout ซ้าย-ขวา */
+    .checkout-wrap {
+      max-width: 1150px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.8fr 1.2fr;
+      gap: 25px;
+      padding: 0 15px;
+    }
+
+    .panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+    }
+
+    .panel-head {
+      font-size: 22px;
+      color: var(--gold-light);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+
+    /* ปุ่มเลือกวิธีจ่ายเงิน (แท็บ) */
+    .method-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .method-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      color: #cbd5e1;
+    }
+
+    .method-card:hover {
+      border-color: var(--cyan);
+    }
+
+    .method-card.active {
+      background: #0284c7;
+      border-color: var(--cyan);
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.4);
+      color: #ffffff;
+    }
+
+    .method-card i {
+      font-size: 24px;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    /* พื้นที่เนื้อหาของแต่ละวิธีชำระเงิน */
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .row-line {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 14.5px;
+      color: #cbd5e1;
+    }
+
+    /* สไตล์เฉพาะของส่วนพร้อมเพย์ (PromptPay Box) */
+    .promptpay-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .qr-frame {
+      background: #ffffff;
+      width: 170px;
+      height: 170px;
+      margin: 0 auto 15px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 2px solid var(--cyan);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .qr-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .copy-btn {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--cyan);
+      border: 1px solid var(--cyan);
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      margin-left: 8px;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: var(--cyan);
+      color: #0c1017;
+    }
+
+    .slip-uploader {
+      margin-top: 15px;
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.2);
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .slip-uploader input {
+      display: block;
+      margin: 8px auto 0;
+      font-size: 12px;
+    }
+
+    /* ฝั่งขวา: การ์ดพระเครื่อง */
+    .order-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 15px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .order-img {
+      width: 75px;
+      height: 85px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid var(--gold);
+    }
+
+    .order-name {
+      font-size: 20px;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .total-price {
+      font-size: 26px;
+      color: var(--gold);
+      font-weight: 800;
+    }
+
+    .btn-submit {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      background: var(--gold);
+      color: #0c1017;
+      border: none;
+      border-radius: 6px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-submit:hover {
+      background: #fde047;
+    }
+
+    @media (max-width: 860px) {
+      .checkout-wrap {
+        grid-template-columns: 1fr;
+      }
+      .nav-menu {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="top-header">
+        <div class="logo">
+        <a href="index.html">หลวงพี่ปิ๊ก Shop</a>
+        </div>
+        
+        <a href="main-form.html" class="menu-item">หน้าหลัก</a>
+        <a href="table.html" class="menu-item">สินค้า</a>
+        <a href="promotion.html" class="menu-item">โปรโมชั่น</a>
+        <a href="pay.html" class="menu-item">การชำระเงิน</a>
+        <a href="contact.html" class="menu-item">ติดต่อเรา</a>
+        <a href="feedback.html" class="menu-item">ความคิดเห็น</a>
+    </nav>
+
+  <!-- 2. บาร์แจ้งยอดกระเป๋าเงิน -->
+  <div class="wallet-bar">
+    <div class="wallet-title thai-sacred">
+      ยอดกระเป๋าพุทธคุณจำลอง: <span class="num-font">฿999,999,996,149,999</span>
+    </div>
+    <span style="font-size: 13.5px; color: var(--gold);">สถานะ: บัญชีพร้อมทำรายการ</span>
+  </div>
+
+  <!-- 3. ส่วนทำรายการ Checkout -->
+  <div class="checkout-wrap">
+    
+    <!-- ฝั่งซ้าย: ตัวเลือกการชำระเงิน -->
+    <div class="panel">
+      <div class="panel-head thai-sacred">
+        <i class="fas fa-shield-halved"></i> เลือกช่องทางชำระเงิน
+      </div>
+
+      <!-- ปุ่มสลับช่องทาง (แท็บ) -->
+      <div class="method-grid">
+        <div id="tabWalletBtn" class="method-card active" onclick="switchPaymentTab('wallet')">
+          <i class="fas fa-wallet"></i>
+          <div style="font-weight: 600;">กระเป๋าเหรียญจำลอง</div>
+          <div style="font-size: 12px; opacity: 0.8;">(Amulet Balance)</div>
+        </div>
+
+        <div id="tabPromptPayBtn" class="method-card" onclick="switchPaymentTab('promptpay')">
+          <i class="fas fa-qrcode"></i>
+          <div style="font-weight: 600;">สแกนพร้อมเพย์</div>
+          <div style="font-size: 12px; opacity: 0.8;">(PromptPay QR)</div>
+        </div>
+      </div>
+
+      <!-- เนื้อหาแท็บ 1: กระเป๋าเงินจำลอง -->
+      <div id="tabWalletContent" class="tab-content active">
+        <div style="border-top: 1px solid var(--border); padding-top: 15px;">
+          <div class="row-line">
+            <span>ยอดเงินคงเหลือปัจจุบัน:</span>
+            <span class="num-font">฿999,999,999,999,999</span>
+          </div>
+          <div class="row-line" style="color: var(--gold);">
+            <span>ยอดหักชำระพระเครื่อง:</span>
+            <span class="num-font">฿3,850,000</span>
+          </div>
+          <div class="row-line">
+            <span>ยอดคงเหลือหลังทำรายการ:</span>
+            <span class="num-font" style="color: #4ade80;">฿999,999,996,149,999</span>
+          </div>
+        </div>
+        <div style="margin-top: 15px; font-size: 12.5px; color: #94a3b8;">
+          <i class="fas fa-info-circle"></i> ระบบจะทำการตัดยอดเหรียญจำลองทันทีเมื่อกดปุ่มยืนยัน
+        </div>
+      </div>
+
+      <!-- เนื้อหาแท็บ 2: สแกนพร้อมเพย์ (จะแสดงเมื่อกดเลือกแท็บนี้) -->
+      <div id="tabPromptPayContent" class="tab-content">
+        <div class="promptpay-box">
+          <div style="font-size: 16px; font-weight: 600; color: var(--cyan); margin-bottom: 12px;">
+            <i class="fas fa-mobile-screen"></i> สแกน QR Code ผ่านแอปธนาคาร
+          </div>
+
+          <div class="qr-frame">
+            <!-- QR Code พร้อมเพย์จำลอง -->
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=0891234567" alt="QR Code พร้อมเพย์">
+          </div>
+
+          <div style="font-size: 14.5px; margin-bottom: 6px;">
+            <span>หมายเลขพร้อมเพย์: </span>
+            <strong style="color: #fff; letter-spacing: 0.5px;" id="ppNumber">089-123-4567</strong>
+            <button class="copy-btn" onclick="copyPromptPay()"><i class="far fa-copy"></i> คัดลอก</button>
+          </div>
+          <div style="font-size: 13.5px; color: #cbd5e1;">
+            ชื่อบัญชี: <strong>บจก. สยามพุทธศิลป์ พระเครื่องไทย</strong>
+          </div>
+
+          <!-- กล่องแนบสลิปโอนเงิน -->
+          <div class="slip-uploader">
+            <div><i class="fas fa-receipt"></i> แนบหลักฐานสลิปการโอนเงิน (ถ้ามี):</div>
+            <input type="file" accept="image/*">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ฝั่งขวา: รายละเอียดพระเครื่อง -->
+    <div class="panel">
+      <div class="panel-head thai-sacred">
+        <i class="fas fa-scroll"></i> รายการวัตถุมงคล
+      </div>
+
+      <div class="order-box">
+        <img src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=300&q=80" class="order-img" alt="พระสมเด็จ">
+        <div>
+          <div class="order-name thai-sacred">พระสมเด็จวัดระฆังโฆสิตาราม</div>
+          <div style="font-size: 13px; color: var(--gold);">● เลี่ยมทองยกซุ้ม พร้อมบัตรรับรองพระแท้</div>
+        </div>
+      </div>
+
+      <div class="row-line">
+        <span>หมายเลขอ้างอิง:</span>
+        <span class="num-font">#PRA-2569-VIP</span>
+      </div>
+      <div class="row-line">
+        <span>มูลค่าเช่าบูชา:</span>
+        <span>฿3,750,000</span>
+      </div>
+      <div class="row-line">
+        <span>ค่าจัดส่งนิรภัยแบบมีประกัน:</span>
+        <span>฿100,000</span>
+      </div>
+
+      <div style="border-top: 1px solid var(--border); padding-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+        <span class="thai-sacred" style="font-size: 18px;">ยอดชำระสุทธิ</span>
+        <span class="total-price num-font">฿3,850,000</span>
+      </div>
+
+      <button id="submitBtn" class="btn-submit thai-sacred" onclick="handleCheckout()">
+        ยืนยันการเช่าบูชา (ตัดกระเป๋าเงิน)
+      </button>
+    </div>
+
+  </div>
+
+  <!-- JavaScript ควบคุมการสลับแท็บ และปุ่มยืนยัน -->
+  <script>
+    let currentMethod = 'wallet';
+
+    function switchPaymentTab(type) {
+      currentMethod = type;
+      const walletBtn = document.getElementById('tabWalletBtn');
+      const promptpayBtn = document.getElementById('tabPromptPayBtn');
+      const walletContent = document.getElementById('tabWalletContent');
+      const promptpayContent = document.getElementById('tabPromptPayContent');
+      const submitBtn = document.getElementById('submitBtn');
+
+      if (type === 'wallet') {
+        walletBtn.classList.add('active');
+        promptpayBtn.classList.remove('active');
+        walletContent.classList.add('active');
+        promptpayContent.classList.remove('active');
+        submitBtn.innerText = 'ยืนยันการเช่าบูชา (ตัดกระเป๋าเงิน)';
+      } else {
+        promptpayBtn.classList.add('active');
+        walletBtn.classList.remove('active');
+        promptpayContent.classList.add('active');
+        walletContent.classList.remove('active');
+        submitBtn.innerText = 'แจ้งชำระเงินผ่านพร้อมเพย์';
+      }
+    }
+
+    function copyPromptPay() {
+      const num = document.getElementById('ppNumber').innerText;
+      navigator.clipboard.writeText(num.replace(/-/g, '')).then(() => {
+        alert('คัดลอกหมายเลขพร้อมเพย์ ' + num + ' เรียบร้อยแล้ว');
+      });
+    }
+
+    function handleCheckout() {
+      if (currentMethod === 'wallet') {
+        alert('ตัดยอดเงินจากกระเป๋าเหรียญจำลองสำเร็จ! บันทึกรายการเช่าบูชาเรียบร้อย');
+      } else {
+        alert('ระบบได้รับข้อมูลการแจ้งโอนผ่านพร้อมเพย์แล้ว เจ้าหน้าที่จะตรวจสอบสลิปและจัดส่งพระเครื่องต่อไป');
+      }
+    }
+  </script>
+
+</body>
+</html>

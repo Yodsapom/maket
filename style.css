@@ -1,0 +1,70 @@
+/* แก้ไขตรงส่วน .top-header และองค์ประกอบภายใน */
+.top-header {
+    background-color: #000000;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* จัดให้เรียงต่อกันจากซ้ายไปขวา */
+    gap: 25px; /* ระยะห่างระหว่างเมนูแต่ละตัว */
+}
+
+.top-header .logo {
+    display: flex;
+    align-items: center;
+}
+
+.top-header .logo a {
+    color: coral;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    white-space: nowrap; /* ป้องกันไม่ให้ข้อความตกบรรทัด */
+    margin-right: 10px; /* เว้นระยะห่างจากเมนูแรกนิดหน่อย */
+}
+
+.top-header .menu-item {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    white-space: nowrap; /* ป้องกันไม่ให้ชื่อเมนูตกบรรทัด */
+    transition: color 0.3s;
+}
+
+.top-header .menu-item:hover {
+    color: coral;
+}
+
+*{
+    color: aliceblue;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+
+img{
+
+    width: 25%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    
+}
+
+.button{
+    display: block;
+    color: aliceblue;
+    background-color: chocolate;
+    width: 15%;
+    text-align: center;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    text-decoration: none;
+    margin: 0 auto;
+}
+
+footer {
+    background-color: #111111; 
+    color: aliceblue;          
+    text-align: center;         
+    padding: 1px 0;            
+    font-size: 14px;
+}
